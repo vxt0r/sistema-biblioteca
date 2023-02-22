@@ -39,7 +39,7 @@ class CadastroServico{
             if($email == $cadastro['email'] && password_verify($senha,$cadastro['senha'])){
                 $_SESSION['logado'] = 1; 
                 $_SESSION['email'] = $email;
-                $_SESSION['id'] = $cadastro['id'];         
+                $_SESSION['id'] = $cadastro['id'];       
                 header('Location: index.php');
             }
         }

@@ -1,9 +1,6 @@
 <?php
 
-require 'classes/Model.php';
-require 'classes/Livro.php';
-require 'classes/Leitor.php';
-
+require 'servicos/Emprestimo.servico.php';
 
 if($_SESSION['logado'] == 0){
     header('Location: login.php');

@@ -1,10 +1,9 @@
 <?php
-require 'classes/Model.php';
-require 'classes/Livro.php';
-require 'classes/Leitor.php';
+
+require 'servicos/Emprestimo.servico.php';
 
 
-$livros_leitor = (new Model)->criarArrayLivrosLeitor($_SESSION['id'],$conexao);
+$livros_leitor = (new LeitorServico)->criarArrayLivrosLeitor($_SESSION['id'],$conexao);
 $leitor = new Leitor($_SESSION['id'],$_SESSION['email']);
 $leitor->__set('livros',$livros_leitor);
 
@@ -16,15 +15,15 @@ if(isset($_GET['id'])){
     $livro = new Livro($livro_busca[0],$livro_busca[1],$livro_busca[2],$livro_busca[3]);
 
     if(isset($_GET['emp'])){
-        (new Model)->atualizarStatusLivro($livro->__get('id'),'indisponível',$conexao);
-        (new Model)->registrarEmprestimo($leitor->__get('id'),$livro->__get('id'),$conexao);
+        (new LivroServico)->atualizarStatusLivro($livro->__get('id'),'indisponível',$conexao);
+        (new LeitorServico)->registrarEmprestimo($leitor->__get('id'),$livro->__get('id'),$conexao);
     }
     elseif(isset($_GET['dev'])){
-        (new Model)->atualizarStatusLivro($livro->__get('id'),'disponível',$conexao);
-        (new Model)->atualizarStatusEmp($leitor->__get('id'),$livro->__get('id'),$conexao);
+        (new LivroServico)->atualizarStatusLivro($livro->__get('id'),'disponível',$conexao);
+        (new LeitorServico)->atualizarStatusEmp($leitor->__get('id'),$livro->__get('id'),$conexao);
     }
 
-    $livros_leitor = (new Model)->criarArrayLivrosLeitor($_SESSION['id'],$conexao);
+    $livros_leitor = (new LeitorServico)->criarArrayLivrosLeitor($_SESSION['id'],$conexao);
     $leitor->__set('livros',$livros_leitor);
 }
 
