@@ -1,6 +1,6 @@
 <?php
 
-require 'servicos/Emprestimo.servico.php';
+require 'emprestimo.php';
 
 if($_SESSION['logado'] == 0){
     header('Location: login.php');
@@ -15,24 +15,33 @@ if($_SESSION['logado'] == 0){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
-<body>
-    <ul>
-    <?php foreach($lista_livros as $livro){?>
-
-        <li>
-            <?php echo $livro['titulo']?>
-            <?php echo $livro['status_livro']?>
-
-            <?php if($livro['status_livro'] == 'disponível'){?>
-                <a href="estante.php?emp=1&id=<?php echo $livro['id']?>">Pegar Emprestado</a>
-            <?php } ?>
-        </li>
-
-    <?php } ?>
-    </ul>
-
-    <a href="estante.php">Minha estante</a>
+<body class="bg-dark text-white">
+    <header class="my-5">
+        <p class="display-6 text-center">Faça o empréstimo de livros online!</p>
+    </header>
+    <main class="d-flex justify-content-center w-75 flex-column mx-auto">
+        <section class="order-2">
+            <ul class="lista-livros ms-5">
+            <?php foreach($lista_livros as $livro){?>
+                <li class="my-3">
+                    <?php echo $livro['titulo']?>
+                    (<?php echo $livro['status_livro']?>)
+                    
+                    <?php if($livro['status_livro'] == 'disponível'){?>
+                        <a href="estante.php?emp=1&id=<?php echo $livro['id']?>">Pegar Emprestado</a>
+                    <?php } ?>
+                </li>
+                <?php } ?>
+            </ul>
+        </section>
+        
+        <section class="order-1 mb-5">
+            <a href="estante.php">Minha estante</a>
+        </section>
+    </main>
     
 </body>
 </html>

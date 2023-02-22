@@ -12,26 +12,4 @@ class Leitor{
         $this->$atributo = $valor;
     }
 
-    public function buscarLivro($lista_livros,$id){
-        foreach($lista_livros as $livro){
-            if($livro['id'] == $id){
-                $livro_busca = [ 
-                    $livro['titulo'],
-                    $livro['autor'],
-                    $livro['status_livro'],
-                    $livro['id']
-                ];
-            }
-        }
-        return $livro_busca;
-    }
-
-    public function pegarEmprestado($livro){
-        $this->livros[] = $livro;
-        $livro->__set('status','indisponível');
-    }
-
-    // public function devolverLivro($livro){
-    //     $this->livros
-    // }
 }

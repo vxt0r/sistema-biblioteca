@@ -1,33 +1,5 @@
 <?php
-
-require 'servicos/Emprestimo.servico.php';
-
-
-$livros_leitor = (new LeitorServico)->criarArrayLivrosLeitor($_SESSION['id'],$conexao);
-$leitor = new Leitor($_SESSION['id'],$_SESSION['email']);
-$leitor->__set('livros',$livros_leitor);
-
-
-$livro_busca = [];
-if(isset($_GET['id'])){
-
-    $livro_busca = $leitor->buscarLivro($lista_livros,$_GET['id']);
-    $livro = new Livro($livro_busca[0],$livro_busca[1],$livro_busca[2],$livro_busca[3]);
-
-    if(isset($_GET['emp'])){
-        (new LivroServico)->atualizarStatusLivro($livro->__get('id'),'indisponível',$conexao);
-        (new LeitorServico)->registrarEmprestimo($leitor->__get('id'),$livro->__get('id'),$conexao);
-    }
-    elseif(isset($_GET['dev'])){
-        (new LivroServico)->atualizarStatusLivro($livro->__get('id'),'disponível',$conexao);
-        (new LeitorServico)->atualizarStatusEmp($leitor->__get('id'),$livro->__get('id'),$conexao);
-    }
-
-    $livros_leitor = (new LeitorServico)->criarArrayLivrosLeitor($_SESSION['id'],$conexao);
-    $leitor->__set('livros',$livros_leitor);
-}
-
-
+require 'emprestimo.php';
 ?>
 
 <!DOCTYPE html>
@@ -37,18 +9,22 @@ if(isset($_GET['id'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha estante</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
-<body>
-    <h1>Seus Livros:</h1>
-    <ul>
-        <?php foreach($leitor->__get('livros') as $livro){ ?>
-            <li>
-                <?php echo $livro->__get('titulo')?>
-                <a href="?dev=1&id=<?php echo $livro->__get('id')?>">Devolver</a>
-            </li>
+<body class="bg-dark text-white">
+    <main class="d-flex w-75 flex-column align-items-start mt-5 mb-3 ms-5">
+        <h1>Seus Livros:</h1>
+        <ul>
+            <?php foreach($leitor->__get('livros') as $livro){ ?>
+                <li class="my-2">
+                    <?php echo $livro->__get('titulo')?>
+                    <a href="?dev=1&id=<?php echo $livro->__get('id')?>">Devolver</a>
+                </li>
 
-        <?php } ?>
-    </ul>
-    <a href="index.php">Início</a>
+            <?php } ?>
+        </ul>
+        <a href="index.php">Início</a>
+    </main>
 </body>
 </html>

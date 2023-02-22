@@ -1,0 +1,17 @@
+main{
+    width: 70vh;
+    margin-top: 5em;
+    padding: 1em;
+}
+
+.cadastrar{
+    height: 60vh;
+}
+
+.login{
+    height: 45vh;
+}
+
+button{
+    width: 93%;
+}

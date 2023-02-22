@@ -4,7 +4,21 @@ require 'classes/Livro.php';
 
 class LivroServico{
 
-    public function buscarLivros($conexao){
+    public function buscarLivroIndex($lista_livros,$id){
+        foreach($lista_livros as $livro){
+            if($livro['id'] == $id){
+                $livro_busca = [ 
+                    $livro['titulo'],
+                    $livro['autor'],
+                    $livro['status_livro'],
+                    $livro['id']
+                ];
+            }
+        }
+        return $livro_busca;
+    } 
+
+    public function buscarLivrosDb($conexao){
         $query = 'SELECT * FROM livros';
         $result = $conexao->query($query) or die($conexao->error);
         $livros = [];
@@ -20,4 +34,4 @@ class LivroServico{
     }
 }
 
-$lista_livros = (new LivroServico)-> buscarLivros($conexao);
+$lista_livros = (new LivroServico)-> buscarLivrosDb($conexao);
