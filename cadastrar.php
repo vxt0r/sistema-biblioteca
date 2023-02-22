@@ -7,7 +7,7 @@
     <title>Faça seu cadastro</title>
 </head>
 <body>
-    <form action="Cadastro.php?cadastrar=1" method="POST">
+    <form action="cadastro.php?cadastrar=1" method="POST">
 
         <label for="">Nome</label>
         <input name="nome" type="text">
