@@ -2,7 +2,7 @@
 
 class Leitor{
     private array $livros;
-    public function __construct(private $id,private $email){}
+    public function __construct(private int $id,private string $email){}
 
     public function __get($atributo){
         return $this->$atributo;

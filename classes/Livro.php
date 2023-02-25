@@ -1,8 +1,11 @@
 <?php
 
 class Livro{
-    public function __construct(private $titulo, private $autor, private $status, private $id)
-    {}
+    public function __construct(
+        private string $titulo, 
+        private string $autor, 
+        private string $status, 
+        private int $id){}
 
     public function __get($atributo){
         return $this->$atributo;

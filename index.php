@@ -35,11 +35,11 @@ if($_SESSION['logado'] == 0){
             <ul class="row">
             <?php foreach($lista_livros as $livro){?>
                 <li class="col-10 col-sm-6 mb-5 list-unstyled">
-                    <?php echo $livro['titulo']?>
-                    (<?php echo $livro['status_livro']?>)<br>
+                    <?php echo $livro->titulo ?>
+                    (<?php echo $livro->status_livro ?>)<br>
                     
-                    <?php if($livro['status_livro'] == 'disponível'){?>
-                        <a href="estante.php?emp=1&id=<?php echo $livro['id']?>">Pegar Emprestado</a>
+                    <?php if($livro->status_livro == 'disponível'){?>
+                        <a href="estante.php?emp=1&id=<?php echo $livro->id ?>">Pegar Emprestado</a>
                     <?php } ?>
                 </li>
                 <?php } ?>
