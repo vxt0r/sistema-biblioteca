@@ -10,7 +10,7 @@
 
 <body class="row bg-primary">
 
-    <main class="row col-10 col-sm-8 col-md-6 gy-5 mx-auto mt-5 bg-dark rounded shadow-lg">
+    <main class="row col-10 col-sm-8 col-md-6 gy-5 mx-auto bg-dark mt-5 rounded shadow-lg">
 
         <form class="row col-12 col-sm-10 col-md-8 gy-3 mx-auto mt-3 mb-2 text-white" action="cadastro.php?entrar=1" method="POST">
 

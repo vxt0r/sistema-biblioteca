@@ -30,6 +30,8 @@ require 'emprestimo.php';
 
         <div class="col-10 mx-auto text-center">
             <a href="index.php">Início</a>
+            <br><br>
+            <a href="logout.php">Sair</a>
         </div>
     </main>
 </body>

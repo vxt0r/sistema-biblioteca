@@ -11,7 +11,8 @@ class LivroServico{
                     $livro->titulo,
                     $livro->autor,
                     $livro->status_livro,
-                    $livro->id
+                    $livro->id,
+                    $livro->imagem_jpg
                 ];
             }
         }

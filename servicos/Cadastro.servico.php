@@ -3,10 +3,6 @@
 require 'classes/Conexao.php';
 session_start();
 
-if(!isset($_SESSION['logado'])){
-    $_SESSION['logado'] = 0;
-} 
-
 class CadastroServico{
 
     public function buscarCadastro(PDO $conexao):array{
@@ -41,10 +37,11 @@ class CadastroServico{
             if($email == $cadastro->email && password_verify($senha,$cadastro->senha)){
                 $_SESSION['logado'] = 1; 
                 $_SESSION['email'] = $email;
-                $_SESSION['id'] = $cadastro->id;       
+                $_SESSION['id'] = $cadastro->id;   
                 header('Location: index.php');
             }
         }
+        die('Email ou senha incorretos');
     }
 }
 
