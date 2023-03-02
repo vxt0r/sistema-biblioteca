@@ -1,4 +1,5 @@
 <?php
-
-session_destroy();
-header('Location: login.php');
+if(!isset($_SESSION['id_usuario'])){
+    header('location: login.php');
+}
+?>
