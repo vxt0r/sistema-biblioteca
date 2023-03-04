@@ -6,7 +6,6 @@ class Leitor{
     private array $livros = [];
     private string $email;
 
-
     public function __get($atributo){
         return $this->$atributo;
     }
@@ -20,24 +19,26 @@ class Leitor{
         }
     }
 
-    public function recuperarDadosUsuario($id_usuario){
-        $statement = (new Database('cadastro'))->buscar('id = '.$id_usuario);
+    public function recuperarDadosUsuario(int $id_usuario):array{
+        $parametros = [$id_usuario];
+        $query = 'SELECT * FROM cadastro WHERE id = ?';
+        $statement = (new Database)->executarQuery($query,$parametros);
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function recuperarLivrosEmp($id_usuario){ 
+    public function recuperarLivrosEmp(int $id_usuario):array{ 
        $query = "   SELECT titulo,autor,status_livro,livros.id 
                     FROM emprestimos 
                     INNER JOIN cadastro ON cadastro.id = id_usuario 
                     INNER JOIN livros ON livros.id = id_livro
-                    WHERE id_usuario = '$id_usuario' 
-                    AND status_emp = 'em andamento'";
-        $statement = (new Database('emprestimos'))->executar($query);
+                    WHERE id_usuario = ? AND status_emp = 'em andamento'";
 
+        $parametros = [$id_usuario];         
+        $statement = (new Database)->executarQuery($query,$parametros);
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function adicionarLivrosUsuario($emprestimos,$leitor){
+    public function adicionarLivrosUsuario(array $emprestimos,Leitor $leitor):void{
             foreach($emprestimos as $emprestimo){
                 $livro = New Livro();
                 $livro->__set('titulo',$emprestimo->titulo);
@@ -48,22 +49,33 @@ class Leitor{
             }
     }
 
-    public function pegarEmprestado($livro){
-        (new Database('emprestimos'))->cadastrar([
-                                            'id_usuario'=> $this->id,
-                                            'id_livro' => $livro->__get('id')
-                                        ]);
-        (new Database('livros'))->atualizar('id = ' . $livro->__get('id'),[
-                                        'status_livro' => 'indisponível']);
+    public function registrarEmp(Livro $livro):void{
+        $parametros = [$this->id,$livro->__get('id')];
+        $query = 'INSERT INTO emprestimos(id_usuario,id_livro) VALUES (?,?)';
+        $statement = (new Database)->executarQuery($query,$parametros);
     }
 
-    public function devolverLivro($livro){
-        (new Database('emprestimos'))->atualizar(
-            'id_livro = ' . $livro->__get('id') . ' AND id_usuario = '. $this->id
-            ,['status_emp' => 'finalizado']);
+    public function atualizarStatusLivro(Livro $livro,string $estado):void{
+        $parametros = [$estado,$livro->__get('id')];
+        $query = "UPDATE livros SET status_livro = ? WHERE id = ?";
+        $statement = (new Database)->executarQuery($query,$parametros);
+    }
 
-        (new Database('livros'))->atualizar('id = ' . $livro->__get('id'),[
-                                        'status_livro' => 'disponível']);
+    public function pegarEmprestado(Livro $livro):void{
+        $this->registrarEmp($livro);
+        $this->atualizarStatusLivro($livro,'indisponível');
+    }
+
+    public function finalizarEmp(Livro $livro):void{
+        $parametros = [$this->id,$livro->__get('id')];
+        $query = "  UPDATE emprestimos SET status_emp = 'finalizado' 
+                    WHERE id_usuario = ? AND id_livro = ?";
+        $statement = (new Database)->executarQuery($query,$parametros);
+    }
+
+    public function devolverLivro(Livro $livro):void{
+        $this->finalizarEmp($livro);
+        $this->atualizarStatusLivro($livro,'disponível');
     }
 
 }

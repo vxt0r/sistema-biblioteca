@@ -17,8 +17,9 @@ class Livro{
         $this->$atributo = $valor;
     }
 
-    public function recuperarLivrosDb(){
-        $statement = (new Database('livros'))->buscar();
+    public function recuperarLivrosDb():array{
+        $query = 'SELECT * FROM livros';
+        $statement = (new Database)->executarQuery($query);
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 }

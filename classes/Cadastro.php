@@ -4,25 +4,28 @@ require 'classes/Database.php';
 
 class Cadastro{
 
-    public function entrar($email,$senha){
-        $statement = (New Database('cadastro'))->buscar("email = '$email'");
-        $usuario =  $statement->fetchAll(PDO::FETCH_OBJ);
+    public function buscarUsuario(string $email):array{
+        $parametros = [$email];
+        $query = 'SELECT * FROM cadastro WHERE email = ?';
+        $statement = (New Database)->executarQuery($query,$parametros);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function entrar(string $email,string $senha):void{
+        $usuario = $this->buscarUsuario($email);
 
         if(password_verify($senha,$usuario[0]->senha)){
+            session_start();
             $_SESSION['id_usuario'] = $usuario[0]->id;
             header('location:index.php');
-        }else{
-            unset($_SESSION['id_usuario']);  
         }
     }
 
-    public function cadastrarUsuario($nome,$email,$senha){
+    public function cadastrarUsuario(string $nome,string $email,string $senha):void{
         $hash = password_hash($senha,PASSWORD_DEFAULT);
-        (new Database('cadastro'))->cadastrar([
-                                        'nome' => $nome,
-                                        'email' => $email,
-                                        'senha' => $hash
-                                    ]);
+        $parametros = [$nome,$email,$hash];
+        $query = 'INSERT INTO cadastro(nome,email,senha) VALUES (?,?,?)';
+        $statement = (New Database)->executarQuery($query,$parametros);
         $this->entrar($email,$senha);
     }
 

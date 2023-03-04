@@ -3,7 +3,12 @@
 
 require 'classes/Livro.php';
 require 'classes/Leitor.php';
-require 'logout.php';
+
+session_start();
+
+if(!isset($_SESSION['id_usuario'])){
+    header('location: login.php');
+}
 
 
 $cadastro = (new Leitor)->recuperarDadosUsuario((int)$_SESSION['id_usuario']);//pegar o id do usuario pelo login

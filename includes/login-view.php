@@ -1,3 +1,19 @@
+<?php 
+    if(isset($_GET['cadastrar'])){
+        $action = 'login.php?cadastrar=1';
+        $span = 'Já possui conta ?';
+        $link = 'login.php';
+        $link_texto = 'Entrar';
+        $btn = 'Cadastrar';
+    }else{
+        $action = 'login.php';
+        $span = 'Ainda não possui conta ?';
+        $link = 'login.php?cadastrar=1';
+        $link_texto = 'Cadastrar';
+        $btn = 'Entrar';
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,12 +29,9 @@
         
         <main class="row col-10 col-sm-8 col-md-6 gy-5 mx-auto bg-dark mt-5 rounded shadow-lg">
 
-            <?php if(isset($_GET['cadastrar'])){?>
-                <form action="login.php?cadastrar=1" class="row col-12 col-sm-10 col-md-8 gy-3 mx-auto mt-3 mb-2 text-white" method="POST">
-            <?php } else{?>
-                <form action="login.php" class="row col-12 col-sm-10 col-md-8 gy-3 mx-auto mt-3 mb-2 text-white" method="POST">
-            <?php } ?>
-
+           
+            <form action="<?php echo $action ?>" class="row col-12 col-sm-10 col-md-8 gy-3 mx-auto mt-3 mb-2 text-white" method="POST">
+            
                 <?php if(isset($_GET['cadastrar'])){ ?>
                     <div class="col-12 gy-4 mx-auto">
                         <label class="form-label" for="">Nome</label>
@@ -35,27 +48,17 @@
                     <label class="form-label" for="">Senha</label>
                     <input class="form-control" name="senha" type="text">
                 </div>
-
-
+                
+                
                 <div class="col-12 gy-5 mx-auto text-center">
-                    <button class="btn btn-light" type="submit">Entrar</button>
+                    <button class="btn btn-light" type="submit"><?php echo $btn ?></button>
                 </div>
 
-                <?php if(isset($_GET['cadastrar'])){ ?>
-
-                    <div class="col-12 gy-4 mx-auto text-center">
-                        <span>
-                            Já possui conta ? <a href="login.php">Entrar</a>
-                        </span>
-                    </div>
-                <?php } else { ?>
-
-                     <div class="col-12 gy-4 mx-auto text-center">
-                        <span>
-                            Ainda não possui conta ? <a href="?cadastrar=1">Cadastrar</a>
-                        </span>
-                    </div>
-                <?php } ?>
+                <div class="col-12 gy-4 mx-auto text-center">
+                    <span><?php echo $span ?>
+                        <a href="<?php echo $link ?>"><?php echo $link_texto ?></a>
+                    </span>
+                </div>
 
             </form>
         </main>
