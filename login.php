@@ -1,6 +1,8 @@
 <?php
 
-require 'classes/Cadastro.php';
+require_once 'vendor/autoload.php';
+
+use classes\Cadastro;
 
 if(!empty($_POST)){
     if(isset($_GET['cadastrar'])){

@@ -1,6 +1,8 @@
 <?php
 
-require 'classes/Livro.php';
+require_once 'vendor/autoload.php';
+
+use classes\Livro;
 
 session_start();
 

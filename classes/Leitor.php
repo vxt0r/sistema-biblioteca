@@ -1,5 +1,10 @@
 <?php
 
+namespace classes;
+
+require_once 'vendor/autoload.php';
+
+use PDO;
 
 class Leitor{
     private int $id;

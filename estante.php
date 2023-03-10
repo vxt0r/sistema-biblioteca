@@ -1,8 +1,9 @@
 <?php
 
+require_once 'vendor/autoload.php';
 
-require 'classes/Livro.php';
-require 'classes/Leitor.php';
+use classes\Livro;
+use classes\Leitor;
 
 session_start();
 
